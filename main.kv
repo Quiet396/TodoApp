@@ -1,0 +1,92 @@
+MDBoxLayout:
+    orientation: "vertical"
+
+    MDToolbar:
+        title: "TODO APPLICATION"
+        right_action_items: [["file-document", lambda x: app.setting_task_info_form()]]
+
+    MDTabs:
+        on_tab_switch: app.on_tab_switch(*args)
+        
+        Tab:
+            text: "Create"
+            orientation: "vertical"
+            padding: "10dp"
+
+            MDLabel:
+                text: "TaskName"
+                pos_hint: {"center_x": .5}
+                                
+            MDTextField:
+                id: taskname
+                text: ''
+                required: True
+                pos_hint: {"center_x": .5}
+                helper_text_mode: "on_error"
+                halign: "center"
+                    
+            MDLabel:
+                text: "Description"
+                pos_hint: {"center_x": .5}
+
+            MDTextField:
+                id: description
+                text: ''
+                pos_hint: {"center_x": .5}
+                halign: "center"
+            
+            MDRaisedButton:
+                id: button
+                text: "SEND"
+                pos_hint: {"center_x": .5}
+                halign: "center"
+                on_release: app.send()
+            
+        Tab:
+            text: "Todo"
+            ScrollView:
+
+                MDList:
+                    id: todo
+                    text: "todo"
+
+        Tab:
+            text: "Doing"
+            ScrollView:
+
+                MDList:
+                    id: doing
+                    text: "doing"
+
+        Tab:
+            text: "Done"
+            ScrollView:
+
+                MDList:
+                    id: done
+                    text: "done"
+                    
+<Task>
+
+    text: root.text
+    secondary_text: root.secondary_text
+    tertiary_text: root.tertiary_text
+    
+    IconLeftWidget:
+        icon: "file-document-outline"
+        on_release: app.change_task_status(root)
+
+    IconRightWidget:
+        icon: "delete"
+        on_release: app.remove_widget(root)
+
+<DoneTask>
+
+    text: root.text
+    secondary_text: root.secondary_text
+    tertiary_text: root.tertiary_text
+
+    IconRightWidget:
+        icon: "delete"
+        on_release: app.remove_widget(root)
+
